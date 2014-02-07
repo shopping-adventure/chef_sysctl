@@ -7,7 +7,7 @@
 # Copyright 2013, OneHealth Solutions, Inc.
 #
 
-unless node['sysctl']['allow_sysctl_conf'] == false
+unless node['sysctl']['enable_sysctl'] == "false"
   Chef::Log.info("Sysctl config set")
   template '/etc/rc.d/init.d/procps' do
     source 'procps.init-rhel.erb'
@@ -44,6 +44,6 @@ else
     Chef::Log.info("Sysctl here")
     action :delete
     backup false
-    only_if File.exists?("#{Sysctl.config_file(node)}")
+    only_if { File.exists?("#{Sysctl.config_file(node)}") }
   end
 end
